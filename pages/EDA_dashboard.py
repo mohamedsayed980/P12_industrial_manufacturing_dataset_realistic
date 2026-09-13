@@ -429,7 +429,7 @@ with tabs[4]:
                  color=machine_oee.values,
                  color_continuous_scale=["#c62828","#e65100","#2e7d32"],
                  title="OEE Ranking — All 50 Machines",
-                 labels={"x":"Machine","y":"Avg OEE"})
+                 label={"x":"Machine","y":"Avg OEE"})
     fig.add_hline(y=WORLD_CLASS, line_dash="dash", line_color=CLR["success"],
                   annotation_text="World Class 85%")
     fig.add_hline(y=OEE_POOR,   line_dash="dash", line_color=CLR["danger"],
@@ -481,7 +481,7 @@ with tabs[5]:
         fig2, ax = plt.subplots(figsize=(7,4))
         shifts = sorted(df["shift"].unique())
         data_bp = [df[df["shift"]==s]["OEE"].values for s in shifts]
-        bp = ax.boxplot(data_bp, patch_artist=True, labels=shifts)
+        bp = ax.boxplot(data_bp, patch_artist=True, label=shifts)
         colors_bp = [CLR["primary"],CLR["teal"],CLR["amber"]]
         for patch, color in zip(bp["boxes"], colors_bp):
             patch.set_facecolor(color); patch.set_alpha(0.7)
