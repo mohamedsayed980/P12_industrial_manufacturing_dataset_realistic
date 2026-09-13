@@ -11,7 +11,7 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 from scipy import stats
-from statsmodels.stats.outliers_influence import variance_inflation_factor
+#from statsmodels.stats.outliers_influence import variance_inflation_factor
 import streamlit as st
 
 warnings.filterwarnings("ignore")
