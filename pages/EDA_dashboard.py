@@ -429,7 +429,7 @@ with tabs[4]:
                  color=machine_oee.values,
                  color_continuous_scale=["#c62828","#e65100","#2e7d32"],
                  title="OEE Ranking — All 50 Machines",
-                 label={"x":"Machine","y":"Avg OEE"})
+                 labels={"x":"Machine","y":"Avg OEE"})
     fig.add_hline(y=WORLD_CLASS, line_dash="dash", line_color=CLR["success"],
                   annotation_text="World Class 85%")
     fig.add_hline(y=OEE_POOR,   line_dash="dash", line_color=CLR["danger"],
