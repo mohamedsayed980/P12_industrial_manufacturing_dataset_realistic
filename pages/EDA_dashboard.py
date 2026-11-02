@@ -11,6 +11,7 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 from scipy import stats
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 import streamlit as st
 
 warnings.filterwarnings("ignore")
@@ -539,13 +540,9 @@ with tabs[6]:
                 if c in df.columns]
     vif_data = df[vif_cols].dropna()
     try:
-        # Keep the VIF dependency local to this calculation so the tab
-        # cannot reference an unbound module-level symbol.
-        from statsmodels.stats.outliers_influence import variance_inflation_factor as _vif
-
         vif_df = pd.DataFrame({
             "Feature": vif_cols,
-            "VIF": [round(_vif(vif_data.values,i),2)
+            "VIF": [round(variance_inflation_factor(vif_data.values,i),2)
                     for i in range(len(vif_cols))]
         }).sort_values("VIF", ascending=False)
         vif_df["Risk"] = vif_df["VIF"].apply(
@@ -930,26 +927,26 @@ RECOMMENDATIONS:
 6. Deploy ML OEE prediction for early warning
 """
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.download_button("📥 Download Report (.txt)", report_txt,
-                           file_name="Manufacturing_Report_M3.txt",
-                           mime="text/plain", use_container_width=True)
-    with col2:
-        machine_summary = df.groupby("machine_id").agg(
-            Avg_OEE=("OEE","mean"), Avg_Downtime=("downtime_min","mean"),
-            Avg_RejectRate=("reject_rate","mean"), Total_Shifts=("OEE","count"),
-            Low_OEE_Shifts=("low_OEE","sum")
-        ).round(4).sort_values("Avg_OEE",ascending=False).reset_index()
-        st.download_button("📥 Machine Rankings (.csv)",
-                           machine_summary.to_csv(index=False),
-                           file_name="Machine_Performance_Rankings_M3.csv",
-                           mime="text/csv", use_container_width=True)
-    with col3:
-        downtime_summary = df.groupby("downtime_reason").agg(
-            Shifts=("OEE","count"), Avg_OEE=("OEE","mean"),
-            Total_Downtime=("downtime_min","sum")
-        ).round(2).sort_values("Total_Downtime",ascending=False).reset_index()
-        st.download_button("📥 Downtime KPIs (.csv)",
-                           downtime_summary.to_csv(index=False),
-                           file_name="Downtime_KPIs_M3.csv",
-                           mime="text/csv", use_container_width=True)
+with col1:
+    st.download_button("📥 Download Report (.txt)", report_txt,
+                       file_name="Manufacturing_Report_M3.txt",
+                       mime="text/plain", use_container_width=True)
+with col2:
+    machine_summary = df.groupby("machine_id").agg(
+        Avg_OEE=("OEE","mean"), Avg_Downtime=("downtime_min","mean"),
+        Avg_RejectRate=("reject_rate","mean"), Total_Shifts=("OEE","count"),
+        Low_OEE_Shifts=("low_OEE","sum")
+    ).round(4).sort_values("Avg_OEE",ascending=False).reset_index()
+    st.download_button("📥 Machine Rankings (.csv)",
+                       machine_summary.to_csv(index=False),
+                       file_name="Machine_Performance_Rankings_M3.csv",
+                       mime="text/csv", use_container_width=True)
+with col3:
+    downtime_summary = df.groupby("downtime_reason").agg(
+        Shifts=("OEE","count"), Avg_OEE=("OEE","mean"),
+        Total_Downtime=("downtime_min","sum")
+    ).round(2).sort_values("Total_Downtime",ascending=False).reset_index()
+    st.download_button("📥 Downtime KPIs (.csv)",
+                       downtime_summary.to_csv(index=False),
+                       file_name="Downtime_KPIs_M3.csv",
+                       mime="text/csv", use_container_width=True)
