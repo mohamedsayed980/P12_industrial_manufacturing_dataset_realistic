@@ -481,7 +481,7 @@ with tabs[5]:
         fig2, ax = plt.subplots(figsize=(7,4))
         shifts = sorted(df["shift"].unique())
         data_bp = [df[df["shift"]==s]["OEE"].values for s in shifts]
-        bp = ax.boxplot(data_bp, patch_artist=True, labels=shifts)
+        bp = ax.boxplot(data_bp, patch_artist=True, tick_labels=shifts)
         colors_bp = [CLR["primary"],CLR["teal"],CLR["amber"]]
         for patch, color in zip(bp["boxes"], colors_bp):
             patch.set_facecolor(color); patch.set_alpha(0.7)
