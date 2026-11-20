@@ -41,7 +41,7 @@ st.markdown("""
 st.markdown("""
 <div class="hero">
   <h1>🏭 Industrial Manufacturing Analytics</h1>
-  <p>End-to-end OEE · Downtime · Defect · Production Analysis · M3 Portfolio · Project 12 of 12</p>
+  <p>End-to-end OEE · Downtime · Defect · Production Analysis · M3 Portfolio · Project 12 of 13</p>
 </div>""", unsafe_allow_html=True)
 
 c1,c2,c3,c4,c5,c6 = st.columns(6)
